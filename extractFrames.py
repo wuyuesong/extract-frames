@@ -3,6 +3,7 @@ import cv2
 import sys
 import os
 import math
+import argparse
 
 # 定义函数extract_frames，接收两个参数：视频文件路径video_path和间隔秒数interval
 def extract_frames(video_path, interval):
@@ -31,7 +32,6 @@ def extract_frames(video_path, interval):
         # 释放视频文件
         cap.release()
     elif os.path.isdir(video_path):
-        print(2)
         # 遍历文件夹下的所有视频文件
         for filename in os.listdir(video_path):
             if filename.endswith('.mp4') or filename.endswith('.avi') or filename.endswith('.mov'):
@@ -51,7 +51,6 @@ def extract_frames(video_path, interval):
                     # 如果计数器count是间隔秒数interval乘以视频文件的帧率的倍数，则保存当前帧为一张图片
                     if count % (interval * math.ceil(cap.get(cv2.CAP_PROP_FPS))) == 0:
                         # 创建data目录
-                        print(os.path.exists('data'))
                         if not os.path.exists('data'):
                             os.makedirs('data')
                         # 保存图片到data目录下
@@ -59,5 +58,11 @@ def extract_frames(video_path, interval):
                 # 释放视频文件
                 cap.release()
 
-# 调用函数extract_frames，传入视频文件路径和间隔秒数
-extract_frames(sys.argv[1], int(sys.argv[2]))
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='从视频文件中提取帧并保存为图片')
+    parser.add_argument('video_path', type=str, help='视频文件路径')
+    parser.add_argument('interval', type=int, help='保存帧的间隔秒数')
+    args = parser.parse_args()
+
+    # 调用函数extract_frames，传入视频文件路径和间隔秒数
+    extract_frames(args.video_path, args.interval)
