@@ -29,6 +29,7 @@ def extract_frames(video_path, interval):
                     os.makedirs('data')
                 # 保存图片到data目录下
                 cv2.imwrite(f"data/frame{count}.jpg", frame)
+                print(f"data/frame{count}.jpg")
         # 释放视频文件
         cap.release()
     elif os.path.isdir(video_path):
@@ -55,6 +56,7 @@ def extract_frames(video_path, interval):
                             os.makedirs('data')
                         # 保存图片到data目录下
                         cv2.imwrite(f"data/{filename}_frame{count}.jpg", frame)
+                        print(f"data/{filename}_frame{count}.jpg")
                 # 释放视频文件
                 cap.release()
 
